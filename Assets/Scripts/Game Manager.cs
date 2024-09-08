@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     public GameObject UI;
 
     public GameObject mainMenu;
-    public bool IsPaused;
+    private bool gameStarted;
 
     public KeyCode inputKey;
 
@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
         timer += Time.deltaTime;
         UpdateTimerDisplay();
 
-        if (Input.GetKeyDown(inputKey) && timer < 0.1f )
+        if (Input.GetKeyDown(inputKey) && gameStarted == false)
         {
             StartGame();
         }
@@ -65,18 +65,15 @@ public class GameManager : MonoBehaviour
     {
         mainMenu.SetActive(true);
         UI.SetActive(false);
-        Time.timeScale = 0f;
-        IsPaused = true;
     }
     public void StartGame()
     {
         mainMenu.SetActive(false);
         UI.SetActive(true);
 
-        PostProcessVolume ppVolume = Camera.main.gameObject.GetComponent<PostProcessVolume>();
+        PostProcessVolume ppVolume = Camera.main.gameObject.GetComponent<PostProcessVolume>();\
         ppVolume.enabled = !ppVolume.enabled;
-
-        Time.timeScale = 1f;
-        IsPaused = false;
+        ResetTimer();
+        gameStarted = true;
     }
 }
