@@ -16,6 +16,7 @@ public class Movement : MonoBehaviour
 
     private void Start()
     {
+        Debug.Log("Start_" + jumpForce + "__" +  jumpInterval);
         movementDirection = transform.forward;
         rb = GetComponent<Rigidbody>();
         instance = this;
@@ -59,5 +60,6 @@ public class Movement : MonoBehaviour
     public void StartMoving()
     {
         InvokeRepeating(nameof(Jump), jumpInterval, jumpInterval);
+        Debug.Log("Start_" + jumpForce + "__" + jumpInterval);
     }
 }
