@@ -68,10 +68,10 @@ public class GameManager : MonoBehaviour
     }
     public void StartGame()
     {
+        Movement.instance.StartMoving();
         mainMenu.SetActive(false);
         UI.SetActive(true);
-
-        PostProcessVolume ppVolume = Camera.main.gameObject.GetComponent<PostProcessVolume>();\
+        PostProcessVolume ppVolume = Camera.main.gameObject.GetComponent<PostProcessVolume>();
         ppVolume.enabled = !ppVolume.enabled;
         ResetTimer();
         gameStarted = true;

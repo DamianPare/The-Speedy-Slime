@@ -8,18 +8,17 @@ public class Movement : MonoBehaviour
     private Rigidbody rb;
 
     public float jumpForce = 112f;
-    //public float groundCheckDistance;
-    //private bool isGrounded = false;
     public KeyCode rotateKey;
     public float jumpInterval;
     private Vector3 movementDirection;
     bool canMove = true;
+    public static Movement instance;
 
     private void Start()
     {
         movementDirection = transform.forward;
         rb = GetComponent<Rigidbody>();
-        InvokeRepeating(nameof(Jump), jumpInterval, jumpInterval);
+        instance = this;
     }
 
     private void Update()
@@ -38,7 +37,8 @@ public class Movement : MonoBehaviour
     void Jump()
     {
         AdjustPositionAndRotation(new Vector3(0, 0, 0));
-        rb.AddForce(new Vector3(0, jumpForce, 0));
+
+        rb.AddForce(new Vector3(0, jumpForce , 0));
 
         if(canMove == true)
         {
@@ -56,4 +56,8 @@ public class Movement : MonoBehaviour
         transform.position = new Vector3(transform.position.x, transform.position.y, Mathf.Round(transform.position.z));
     }
 
+    public void StartMoving()
+    {
+        InvokeRepeating(nameof(Jump), jumpInterval, jumpInterval);
+    }
 }
