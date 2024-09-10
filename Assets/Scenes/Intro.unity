@@ -835,7 +835,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -4091,7 +4091,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -11595,6 +11595,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4031570429838817774, guid: 4c6fc2dc098c2e14baef02acf0cf2455, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1966893269}
+    - targetCorrespondingSourceObject: {fileID: 4031570429838817774, guid: 4c6fc2dc098c2e14baef02acf0cf2455, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1966893288}
+    - targetCorrespondingSourceObject: {fileID: 4031570429838817774, guid: 4c6fc2dc098c2e14baef02acf0cf2455, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1966893287}
   m_SourcePrefab: {fileID: 100100000, guid: 4c6fc2dc098c2e14baef02acf0cf2455, type: 3}
 --- !u!1 &1429887933
 GameObject:
@@ -12540,6 +12546,10 @@ PrefabInstance:
     - target: {fileID: 4235134703557468480, guid: 1b1fffa959f282945b7d5ed6f844fee7, type: 3}
       propertyPath: m_Name
       value: Flying Fish
+      objectReference: {fileID: 0}
+    - target: {fileID: 4235134703557468480, guid: 1b1fffa959f282945b7d5ed6f844fee7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7106272225602170901, guid: 1b1fffa959f282945b7d5ed6f844fee7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -17324,10 +17334,34 @@ MonoBehaviour:
   UI: {fileID: 1356527294}
   mainMenu: {fileID: 1564364702}
   inputKey: 32
-  Collider1: {fileID: 0}
-  Collider2: {fileID: 0}
-  Start2: {fileID: 0}
-  Start3: {fileID: 0}
+--- !u!114 &1966893287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1966893268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5edf2ad807e0b144a0744a88d436b6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Start3: {fileID: 1682031286}
+  End2: {fileID: 68531356}
+--- !u!114 &1966893288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1966893268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 320f1b598d5e1544caf611e7ea4450b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Start2: {fileID: 1646595835}
+  End1: {fileID: 412252839}
 --- !u!1 &1969675763
 GameObject:
   m_ObjectHideFlags: 0

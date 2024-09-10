@@ -18,11 +18,6 @@ public class GameManager : MonoBehaviour
 
     public KeyCode inputKey;
 
-    public GameObject Collider1;
-    public GameObject Collider2;
-    public Transform Start2;
-    public Transform Start3;
-
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.layer == 6)
