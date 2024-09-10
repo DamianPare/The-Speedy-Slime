@@ -26,8 +26,6 @@ public class GameManager : MonoBehaviour
     public AudioClip fishKillClip;
     public AudioClip waterKillClip;
 
-
-
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.layer == 6)

@@ -15,6 +15,8 @@ public class Movement : MonoBehaviour
     public static Movement instance;
     public AudioClip bounceClip;
     public AudioSource audioSource;
+    public Animator animator;
+
 
     private void Start()
     {
@@ -50,6 +52,8 @@ public class Movement : MonoBehaviour
         else
         {
             transform.rotation *= Quaternion.Euler(0, 90, 0);
+            animator.SetTrigger("Trigger");
+            //animator.ResetTrigger("Trigger");
         }
     }    
 
