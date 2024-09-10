@@ -16,28 +16,37 @@ public class GameManager : MonoBehaviour
 
     public GameObject mainMenu;
     private bool gameStarted;
+    private bool gameOver;
 
     public KeyCode inputKey;
 
     public AudioSource audioSource;
-    public AudioClip killClip;
-    
+    public AudioClip fishKillClip;
+    public AudioClip waterKillClip;
+
 
 
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.layer == 6)
         {
-            audioSource.PlayOneShot(killClip);
-            GameOver();
-            //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            audioSource.PlayOneShot(waterKillClip);
+            gameOver = true;
+        }
+
+        if (collision.gameObject.layer == 7)
+        {
+            audioSource.PlayOneShot(fishKillClip);
+            gameOver = true;
         }
     }
 
     void Start()
     {
+        Time.timeScale = 1f;
         timer = startTime;
         PauseGame();
+        gameOver = false;
     }
 
     void Update()
@@ -48,6 +57,11 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(inputKey) && gameStarted == false)
         {
             StartGame();
+        }
+
+        if (gameOver == true)
+        {
+            GameOver();
         }
     }
 
@@ -82,6 +96,12 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        Time.timeScale = 0f;
         gameOverUI.SetActive(true);
+
+        if(Input.GetKeyDown(inputKey))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
     }
 }
