@@ -12,17 +12,25 @@ public class GameManager : MonoBehaviour
     public float startTime;
     private float timer;
     public GameObject UI;
+    public GameObject gameOverUI;
 
     public GameObject mainMenu;
     private bool gameStarted;
 
     public KeyCode inputKey;
 
+    public AudioSource audioSource;
+    public AudioClip killClip;
+    
+
+
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.layer == 6)
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            audioSource.PlayOneShot(killClip);
+            GameOver();
+            //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 
@@ -70,5 +78,10 @@ public class GameManager : MonoBehaviour
         ppVolume.enabled = !ppVolume.enabled;
         ResetTimer();
         gameStarted = true;
+    }
+
+    public void GameOver()
+    {
+        gameOverUI.SetActive(true);
     }
 }

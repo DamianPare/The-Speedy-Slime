@@ -13,6 +13,8 @@ public class Movement : MonoBehaviour
     private Vector3 movementDirection;
     bool canMove = true;
     public static Movement instance;
+    public AudioClip bounceClip;
+    public AudioSource audioSource;
 
     private void Start()
     {
@@ -38,7 +40,7 @@ public class Movement : MonoBehaviour
     void Jump()
     {
         AdjustPositionAndRotation(new Vector3(0, 0, 0));
-
+        audioSource.PlayOneShot(bounceClip);
         rb.AddForce(new Vector3(0, jumpForce , 0));
 
         if(canMove == true)
