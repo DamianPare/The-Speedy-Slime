@@ -1,26 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class Movement : MonoBehaviour
 
 {
     private Rigidbody rb;
 
-    public float jumpForce = 112f;
+    public float jumpForce = 1.5f;
     public KeyCode rotateKey;
-    public float jumpInterval;
     private Vector3 movementDirection;
     bool canMove = true;
+    bool gameStarted = false;
     public static Movement instance;
     public AudioClip bounceClip;
     public AudioSource audioSource;
     public Animator animator;
 
+    [SerializeField] float halfJumptime = 0.3f;
+    Coroutine jumpAnim;
 
     private void Start()
     {
-        Debug.Log("Start_" + jumpForce + "__" +  jumpInterval);
         movementDirection = transform.forward;
         rb = GetComponent<Rigidbody>();
         instance = this;
@@ -28,10 +30,11 @@ public class Movement : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(rotateKey))
+        if (Input.GetKeyDown(rotateKey) && gameStarted)
         {
+            transform.rotation *= Quaternion.Euler(0, 90, 0);
+            animator.SetTrigger("Trigger");
             canMove = false;
-            Debug.Log("Stopped");
         }
         if (Input.GetKeyUp(rotateKey))
         {
@@ -39,33 +42,37 @@ public class Movement : MonoBehaviour
         }
     }
 
+    IEnumerator JumpAnim()
+    {
+        while (true)
+        {
+            JumpUp();
+            Jump();
+            yield return new WaitForSeconds(0.5f + 2 * halfJumptime);
+        }
+    }
+    void JumpUp()
+    {
+        transform.DOBlendableMoveBy(new Vector3(0, 1, 0), halfJumptime).SetEase(Ease.OutCubic).OnComplete(() => 
+        {
+            transform.DOBlendableMoveBy(new Vector3(0, -1, 0), halfJumptime).SetEase(Ease.InCubic);
+        });
+    }
+
+
     void Jump()
     {
-        AdjustPositionAndRotation(new Vector3(0, 0, 0));
         audioSource.PlayOneShot(bounceClip);
-        rb.AddForce(new Vector3(0, jumpForce , 0));
 
         if(canMove == true)
         {
-            rb.AddForce(this.transform.forward * jumpForce);
-        }
-        else
-        {
-            transform.rotation *= Quaternion.Euler(0, 90, 0);
-            animator.SetTrigger("Trigger");
-            //animator.ResetTrigger("Trigger");
+            transform.DOBlendableMoveBy(transform.forward * jumpForce, 0.6f);
         }
     }    
 
-    void AdjustPositionAndRotation(Vector3 newRotation)
-    {
-        rb.velocity = Vector3.zero;
-        transform.position = new Vector3(transform.position.x, transform.position.y, Mathf.Round(transform.position.z));
-    }
-
     public void StartMoving()
     {
-        InvokeRepeating(nameof(Jump), jumpInterval, jumpInterval);
-        Debug.Log("Start_" + jumpForce + "__" + jumpInterval);
+        jumpAnim = StartCoroutine(JumpAnim());
+        gameStarted = true;
     }
 }

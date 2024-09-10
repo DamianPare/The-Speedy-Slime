@@ -239,8 +239,8 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
@@ -256,12 +256,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40d30c06ae0df894db11db1aeec640d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: 112
+  jumpForce: 1
   rotateKey: 32
-  jumpInterval: 0.75
+  jumpInterval: 0.9
   bounceClip: {fileID: 8300000, guid: d34c179c74d70bc4a84da49b328804a0, type: 3}
   audioSource: {fileID: 0}
   animator: {fileID: 0}
+  timeBetweenJumps: 0.4
+  halfJumptime: 0.3
 --- !u!114 &7663371938559125027
 MonoBehaviour:
   m_ObjectHideFlags: 0
