@@ -20,6 +20,7 @@ public class Movement : MonoBehaviour
 
     [SerializeField] float halfJumptime = 0.3f;
     Coroutine jumpAnim;
+    public float initialmovementFreeze; 
 
     private void Start()
     {
@@ -30,7 +31,7 @@ public class Movement : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(rotateKey) && gameStarted)
+        if (Input.GetKeyDown(rotateKey) && gameStarted == true)
         {
             transform.rotation *= Quaternion.Euler(0, 90, 0);
             animator.SetTrigger("Trigger");
@@ -51,6 +52,13 @@ public class Movement : MonoBehaviour
             yield return new WaitForSeconds(0.5f + 2 * halfJumptime);
         }
     }
+
+    IEnumerator StartCountdown()
+    {
+        yield return new WaitForSeconds(initialmovementFreeze);
+        gameStarted = true;
+    }
+
     void JumpUp()
     {
         transform.DOBlendableMoveBy(new Vector3(0, 1, 0), halfJumptime).SetEase(Ease.OutCubic).OnComplete(() => 
@@ -72,7 +80,7 @@ public class Movement : MonoBehaviour
 
     public void StartMoving()
     {
+        StartCoroutine(StartCountdown());
         jumpAnim = StartCoroutine(JumpAnim());
-        gameStarted = true;
     }
 }

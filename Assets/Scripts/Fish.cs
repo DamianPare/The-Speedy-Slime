@@ -12,7 +12,6 @@ public class Fish : MonoBehaviour
         if (collision.gameObject.layer == 6)
         {
             audioSource.PlayOneShot(splashClip);
-            Debug.Log("Splash");
         }
     }
 

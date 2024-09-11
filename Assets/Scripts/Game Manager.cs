@@ -9,8 +9,12 @@ using UnityEngine.Rendering.PostProcessing;
 public class GameManager : MonoBehaviour
 {
     public Text timerText;
+    public Text recordText; 
     public float startTime;
-    private float timer;
+    private float timeToDisplay;
+    private string timerString;
+    private string firstTime;
+    private string secondTime;
     public GameObject UI;
     public GameObject gameOverUI;
     public GameObject gameFinishedUI;
@@ -25,6 +29,8 @@ public class GameManager : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip fishKillClip;
     public AudioClip waterKillClip;
+
+    public int initialFreeze;
 
     void OnCollisionEnter(Collision collision)
     {
@@ -48,8 +54,10 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        gameStarted = true;
+        StartCoroutine(StartCountdown());
         Time.timeScale = 1f;
-        timer = startTime;
+        timeToDisplay = startTime;
         PauseGame();
         gameOver = false;
         gameFinished = false;
@@ -57,8 +65,9 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        timer += Time.deltaTime;
+        timeToDisplay += Time.deltaTime;
         UpdateTimerDisplay();
+        recordText.text = timerString;
 
         if (Input.GetKeyDown(inputKey) && gameStarted == false)
         {
@@ -76,17 +85,26 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    IEnumerator StartCountdown()
+    {
+        yield return new WaitForSeconds(initialFreeze);
+        gameStarted = false;
+        Debug.Log("You can move");
+    }
+
     void UpdateTimerDisplay()
     {
-        int minutes = (int)(timer / 60);
-        int seconds = (int)(timer % 60);
+        float Minutes = Mathf.FloorToInt(timeToDisplay /60);
+        float Seconds = Mathf.FloorToInt(timeToDisplay % 60);
+        float MilliSeconds = timeToDisplay % 1 * 100;
 
-        timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+        timerString = string.Format("{0:0}:{1:00}:{2:00}", Minutes, Seconds, MilliSeconds);
+        timerText.text = timerString;
     }
 
     public void ResetTimer()
     {
-        timer = 0f;
+        timeToDisplay = 0f;
     }
 
     public void PauseGame()
@@ -96,21 +114,21 @@ public class GameManager : MonoBehaviour
     }
     public void StartGame()
     {
-        Movement.instance.StartMoving();
         mainMenu.SetActive(false);
         UI.SetActive(true);
         PostProcessVolume ppVolume = Camera.main.gameObject.GetComponent<PostProcessVolume>();
         ppVolume.enabled = !ppVolume.enabled;
         ResetTimer();
         gameStarted = true;
+        Movement.instance.StartMoving();
     }
 
     public void GameOver()
     {
         Time.timeScale = 0f;
         gameOverUI.SetActive(true);
-
-        if(Input.GetKeyDown(inputKey))
+        UI.SetActive(false);
+        if (Input.GetKeyDown(inputKey))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
@@ -120,6 +138,7 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 0f;
         gameFinishedUI.SetActive(true);
+        UI.SetActive(false);
 
         if (Input.GetKeyDown(inputKey))
         {
